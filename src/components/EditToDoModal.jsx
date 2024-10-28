@@ -38,7 +38,7 @@ const EditToDoModal = ({handleEditTodo, selectedTodo, setSelectedTodo, setShowEd
                   className="mt-4 px-5 py-2 bg-myBlue font-semibold text-white rounded-lg outline-none"
                   type="submit"
                 >
-                  Edit Task
+                  Update Task
                 </button>
 
                 <button
