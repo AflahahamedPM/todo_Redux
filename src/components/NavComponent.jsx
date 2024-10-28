@@ -1,6 +1,9 @@
 import React from 'react'
+import { openModal } from '../utils/modalSlice'
+import { useDispatch } from 'react-redux'
 
-const NavComponent = ({ setShowModal, filterBy, filterTodo }) => {
+const NavComponent = ({ setShowModal, filterBy, filterTodo, setIsEditing }) => {
+    const dispatch = useDispatch()
   return (
     <>
     <h1 className="text-myGray text-4xl font-bold my-10 flex justify-center">
@@ -10,7 +13,8 @@ const NavComponent = ({ setShowModal, filterBy, filterTodo }) => {
         <button
           className="px-5 h-11 bg-myBlue rounded-lg text-white text-"
           onClick={() => {
-            setShowModal(true);
+            setIsEditing(false)
+            dispatch(openModal())
           }}
         >
           Add Task

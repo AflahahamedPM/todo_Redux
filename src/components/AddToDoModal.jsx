@@ -1,6 +1,9 @@
 import React from 'react'
+import { closeModal } from '../utils/modalSlice'
+import { useDispatch } from 'react-redux'
 
-const AddTodoModal = ({handleAddTodo, status, setStatus, setShowModal}) => {
+const AddTodoModal = ({handleAddTodo, status, setStatus}) => {
+    const dispatch = useDispatch()
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="w-[500px] h-[320px] bg-gray-200 rounded-lg p-4">
@@ -41,7 +44,7 @@ const AddTodoModal = ({handleAddTodo, status, setStatus, setShowModal}) => {
 
                 <button
                   className="mt-4 px-4 py-2 bg-myAsh font-semibold rounded-lg text-myGray outline-none"
-                  onClick={() => setShowModal(false)}
+                  onClick={() => dispatch(closeModal())}
                 >
                   Cancel
                 </button>

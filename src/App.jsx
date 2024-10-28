@@ -2,22 +2,24 @@ import { useState, useEffect } from "react";
 import "./App.css";
 
 import { addTodo, editTodo, deleteTodo, setTodos } from "./utils/todoSlice";
+import { openModal, closeModal } from "./utils/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
-import AddTodoModal from "./components/AddToDoModal";
-import EditToDoModal from "./components/EditToDoModal";
 import ToDoComponent from "./components/ToDoComponent";
 import NavComponent from "./components/NavComponent";
+import ToDoModal from "./components/ToDoModal";
 
 function App() {
-  const [showModal, setShowModal] = useState(false);
   const [status, setStatus] = useState("Incomplete");
-  const [showEditModal, setShowEditModal] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState([]);
   const [filterBy, setFilterBy] = useState("All");
   const todos = useSelector((state) => state.todos);
   const [filterTodos, setFilterTodos] = useState(todos);
+  const [isEditing, setIsEditing] = useState(false);
+  const [title, setTitle] = useState("")
 
   const dispatch = useDispatch();
+  const isModalOpen = useSelector((state) => state.modal.isModalOpen);
+
 
   useEffect(() => {
     const savedTodos = JSON.parse(localStorage.getItem("todos"));
@@ -34,7 +36,7 @@ function App() {
       setFilterTodos(todos.filter((todo) => todo.status === filterBy));
     }
   }, [todos, filterBy]);
-  
+
   const handleAddTodo = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -46,7 +48,7 @@ function App() {
     };
 
     dispatch(addTodo(data));
-    setShowModal(false);
+    dispatch(closeModal());
     setStatus("Incomplete");
   };
 
@@ -61,7 +63,7 @@ function App() {
       currentStatus,
     };
     dispatch(editTodo(data));
-    setShowEditModal(false);
+    dispatch(closeModal());
   };
 
   const handleDeleteTodo = (id) => {
@@ -71,7 +73,8 @@ function App() {
   const handleEditModal = (id) => {
     const todoToEdit = todos.find((todo) => todo.id === id);
     setSelectedTodo(todoToEdit);
-    setShowEditModal(true);
+    dispatch(openModal());
+    setIsEditing(true);
   };
 
   const handleCheckboxChange = (id, currentStatus) => {
@@ -93,7 +96,11 @@ function App() {
   };
   return (
     <>
-      <NavComponent setShowModal={setShowModal} filterBy={filterBy} filterTodo={filterTodo}/>
+      <NavComponent
+        setIsEditing={setIsEditing}
+        filterBy={filterBy}
+        filterTodo={filterTodo}
+      />
       <div className="w-6/12 mx-auto mt-4 border-none px-4 pt-4 pb-2 bg-gray-100 rounded-lg">
         {filterTodos.length === 0 ? (
           <p className="px-4 py-3 h-10 bg-myKhaki border-none rounded-lg border w-1/6 mx-auto flex justify-center items-center text-center text-myLighKhaki font-semibold">
@@ -101,26 +108,30 @@ function App() {
           </p>
         ) : (
           filterTodos.map((todo) => (
-            <ToDoComponent key={todo.id} id={todo.id} title={todo.title} handleCheckboxChange={handleCheckboxChange} status={todo.status} handleDeleteTodo={handleDeleteTodo} handleEditModal={handleEditModal} />
-          )
-        ))}
+            <ToDoComponent
+              key={todo.id}
+              id={todo.id}
+              title={todo.title}
+              handleCheckboxChange={handleCheckboxChange}
+              status={todo.status}
+              handleDeleteTodo={handleDeleteTodo}
+              handleEditModal={handleEditModal}
+              setIsEditing={setIsEditing}
+            />
+          ))
+        )}
       </div>
 
-      {showModal && (
-        <AddTodoModal
+      {isModalOpen && (
+        <ToDoModal
           handleAddTodo={handleAddTodo}
           status={status}
           setStatus={setStatus}
-          setShowModal={setShowModal}
-        />
-      )}
-
-      {showEditModal && (
-        <EditToDoModal
+          isEditing={isEditing}
           handleEditTodo={handleEditTodo}
           selectedTodo={selectedTodo}
           setSelectedTodo={setSelectedTodo}
-          setShowEditModal={setShowEditModal}
+          setTitle={setTitle}
         />
       )}
     </>

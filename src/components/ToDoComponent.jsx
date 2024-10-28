@@ -2,7 +2,7 @@ import React from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 
-const ToDoComponent = ({id, handleCheckboxChange, status, title, handleDeleteTodo, handleEditModal}) => {
+const ToDoComponent = ({id, handleCheckboxChange, status, title, handleDeleteTodo, handleEditModal, setIsEditing}) => {
   return (
     <div
               className="flex justify-start items-center border-none rounded-lg bg-white py-2 px-2 mb-4"
@@ -43,6 +43,7 @@ const ToDoComponent = ({id, handleCheckboxChange, status, title, handleDeleteTod
                   <button
                     className="px-2  rounded-lg bg-myKhaki hover:bg-gray-400"
                     onClick={() => {
+                        setIsEditing(true)
                       handleEditModal(id);
                     }}
                   >

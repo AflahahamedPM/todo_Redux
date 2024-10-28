@@ -1,6 +1,9 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { closeModal } from '../utils/modalSlice'
 
-const EditToDoModal = ({handleEditTodo, selectedTodo, setSelectedTodo, setShowEditModal}) => {
+const EditToDoModal = ({handleEditTodo, selectedTodo, setSelectedTodo}) => {
+    const dispatch = useDispatch()
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="w-[500px] h-[320px] bg-gray-200 rounded-lg p-4">
@@ -43,7 +46,7 @@ const EditToDoModal = ({handleEditTodo, selectedTodo, setSelectedTodo, setShowEd
 
                 <button
                   className="mt-4 px-4 py-2 bg-myAsh font-semibold rounded-lg text-myGray outline-none"
-                  onClick={() => setShowEditModal(false)}
+                  onClick={() => dispatch(closeModal())}
                 >
                   Cancel
                 </button>
