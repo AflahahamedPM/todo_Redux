@@ -18,7 +18,7 @@ const ToDoComponent = ({id, handleCheckboxChange, status, title, handleDeleteTod
                       }
                       className="mr-2 border-none cursor-pointer"
                     />
-                    <p className={`${status === "Completed" ? "line-through" : ""} text-lg font-medium uppercase`}>
+                    <p className={`${status === "Completed" ? "line-through text-gray-400" : ""} text-lg font-medium uppercase`}>
                       {title}
                     </p>
                   </div>
