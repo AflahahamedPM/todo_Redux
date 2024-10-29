@@ -40,7 +40,7 @@ function App() {
   const handleAddTodo = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const title = formData.get("title");
+    const title = formData.get('title')
     const currentStatus = status;
     const data = {
       title,
@@ -55,7 +55,7 @@ function App() {
   const handleEditTodo = (e, id) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const title = formData.get("title");
+    const title = formData.get('title')
     const currentStatus = selectedTodo.status;
     const data = {
       id,
